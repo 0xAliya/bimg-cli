@@ -1,0 +1,15 @@
+{
+  "name": "bimg-cli",
+  "version": "0.0.1",
+  "description": "A image bed for Typora",
+  "main": "bin/cli.js",
+  "bin": {
+    "bimg": "bin/cli.js"
+  },
+  "author": "PenLa",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/core": "^3.5.0",
+    "commander": "^6.2.1"
+  }
+}
