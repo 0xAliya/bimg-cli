@@ -8,6 +8,10 @@
   },
   "author": "PenLa",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PenLa/bimg-cli.git"
+  },
   "dependencies": {
     "@octokit/core": "^3.5.0",
     "commander": "^6.2.1"

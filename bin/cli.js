@@ -5,37 +5,41 @@ const { Octokit } = require('@octokit/core');
 
 const program = new Command();
 const octokit = new Octokit();
+
 let index = 0;
 
-const img2Base64 = (filePath) => {
-  const img = fs.readFileSync(filePath);
-  const imgBase64 = img.toString('base64');
-  return imgBase64;
-}
+const file2Base64 = (filePath) => fs.readFileSync(filePath).toString('base64');
 
-const uploadImg = async (filePath, options) => {
-  let result = null;
-  const content = img2Base64(filePath);
-  const type = filePath.split('.').pop();
+const uploadFileToGithub = async (content, fileType, { token, owner, repo, path }) =>
+  await octokit.request(`PUT https://api.github.com/repos/{owner}/{repo}/contents/{path}/${Date.now()}${index++}.${fileType}`, {
+    headers: {
+      Authorization: `token ${token}`
+    },
+    owner,
+    repo,
+    path,
+    data: {
+      'message': 'upload image',
+      'content': content
+    }
+  });
 
-  try {
-    const { token, owner, repo, path } = options;
-    result = await octokit.request(`PUT https://api.github.com/repos/{owner}/{repo}/contents/{path}/${Date.now()}${index++}.${type}`, {
-      headers: {
-        Authorization: `token ${token}`
-      },
-      owner,
-      repo,
-      path,
-      data: {
-        'message': 'upload image',
-        'content': content
-      }
-    });
-  } catch (error) {
-    throw error;
-  }
-  return result;
+const uploadFileToGitte = async (content, fileType, { token, owner, repo, path }) =>
+  await octokit.request(`POST https://gitee.com/api/v5/repos/{owner}/{repo}/contents/{path}/${Date.now()}${index++}.${fileType}`, {
+    owner,
+    repo,
+    path,
+    data: {
+      'access_token': `${token}`,
+      'message': 'upload image',
+      'content': content,
+    }
+  });
+
+const uploadFile = (type) => (filePath, options) => {
+  const content = file2Base64(filePath);
+  const fileType = filePath.split('.').pop();
+  return type === 'gitee' ? uploadFileToGitte(content, fileType, options) : uploadFileToGithub(content, fileType, options);
 }
 
 program
@@ -43,29 +47,30 @@ program
 
 program
   .command('upload')
-  .description('upload a image to github')
-  .option('-t, --token <token>', 'token',)
-  .option('-o, --owner <owner>', 'owner',)
-  .option('-r, --repo <repo>', 'repo',)
-  .option('-p, --path <path>', 'path',)
+  .description('Upload images to github or gitee')
+  .option('-t, --token <token>', 'token')
+  .option('--type <type>', 'git repo type', 'github')
+  .option('-o, --owner <owner>', 'owner')
+  .option('-r, --repo <repo>', 'repo')
+  .option('-p, --path <path>', 'path')
   .action(async (command) => {
-    let result = null;
-    const args = command.args;
-
     try {
-      result = await Promise.all(
-        args.map(filePath => uploadImg(
+      const upload = uploadFile(command.type)
+      const args = command.args;
+
+      const result = await Promise.all(
+        args.map(filePath => upload(
           filePath, command
         ))
       );
+
+      result.forEach(item => {
+        console.log(item.data.content.download_url);
+      })
+
     } catch (error) {
       console.log(error);
     }
-
-    result.forEach(item => {
-      console.log(item.data.content.download_url);
-    })
-
   });
 
 program.parse(process.argv);
