@@ -3,7 +3,7 @@
 ## 使用方式
 
 ```
-npm install bimg-cli
+npm install bimg-cli -g
 ```
 
 
@@ -50,7 +50,7 @@ bimg upload --type gitee -t xxxx -o PenLa -r image-bed -p image
 
 点击图片服务验证成功后，可以看到图片的url地址，点击链接可以验证是否上传成功。
 
-![image-20210614155227097](C:\Users\penpe\AppData\Roaming\Typora\typora-user-images\image-20210614155227097.png)
+![image-20210614155227097](https://gitee.com/penla/image-bed/raw/master/image/16236587516850.png)
 
 
 Typora 图片打开右击菜单，点击图片上传
@@ -60,6 +60,6 @@ Typora 图片打开右击菜单，点击图片上传
 ![image-20210614155107795](https://gitee.com/penla/image-bed/raw/master/image/16236587467570.png)
 
 
-上传成功后可以看，图片的地址变成了 gitee 仓库的地址
+上传成功后可以看到，图片的地址变成了 gitee 仓库的地址
 
 ![image-20210614155826982](https://gitee.com/penla/image-bed/raw/master/image/16236587449550.png)
