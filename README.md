@@ -63,3 +63,28 @@ Typora 图片打开右击菜单，点击图片上传
 上传成功后可以看到，图片的地址变成了 gitee 仓库的地址
 
 ![image-20210614155826982](https://gitee.com/penla/image-bed/raw/master/image/16236587449550.png)
+
+
+## 使用 Git
+
+1.  创建仓库
+
+![image-20210615152557790](https://gitee.com/penla/image-bed/raw/master/image/16237423159660.png)
+
+
+2. 打开 `Settings` 中的`Developer settings`，生成`token`，记得把`token`记下来
+
+
+![image-20210615153004977](https://gitee.com/penla/image-bed/raw/master/image/16237423177980.png)
+
+3. 打开 Typora 中偏好设置的图像，上传服务设置为 **Custom Command** ，命令填写
+
+```sh
+bimg upload -t <token> -o <owner> -r <repo> -p <path>
+```
+
+例如
+
+```sh
+bimg upload -t xxxx -o PenLa -r image-bed -p image
+```
