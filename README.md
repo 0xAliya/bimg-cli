@@ -65,7 +65,7 @@ Typora 图片打开右击菜单，点击图片上传
 ![image-20210614155826982](https://gitee.com/penla/image-bed/raw/master/image/16236587449550.png)
 
 
-## 使用 Git
+## 使用 Github
 
 1.  创建仓库
 
